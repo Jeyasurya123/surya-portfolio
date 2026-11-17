@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${profile.name} + ' | ' + ${profile.title}">Jeya Surya P | Java Backend Developer</title>
+    <meta name="description" th:content="${profile.about}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<canvas id="bg"></canvas>
+
+<!-- NAV -->
+<header class="nav">
+    <button class="burger" id="burger" aria-label="Menu">☰</button>
+    <nav id="menu">
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#experience">Experience</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+    </nav>
+</header>
+
+<!-- HERO -->
+<section id="home" class="hero">
+    <video class="hero-video" id="heroVideo" autoplay muted loop playsinline>
+        <source th:src="@{/videos/hero.mp4}" type="video/mp4">
+    </video>
+    <div class="hero-overlay"></div>
+
+    <div class="hero-inner">
+        <div class="hero-text reveal">
+            <p class="eyebrow">Hello, I'm</p>
+            <h1 th:text="${profile.name}">Jeya Surya P</h1>
+            <h2>
+                <span id="typed" data-roles="Java Backend Developer|Spring Boot Developer|Microservices Engineer|REST API Builder|GenAI Enthusiast"></span><span class="cursor">|</span>
+            </h2>
+            <p class="lead" th:text="${profile.about}"></p>
+            <div class="cta">
+                <a class="btn primary" href="#projects">View Projects</a>
+                <a class="btn ghost" th:href="@{/files/Jeya_Surya_Resume.pdf}" download>Download Resume</a>
+            </div>
+            <div class="socials">
+                <a th:href="${profile.linkedin}" target="_blank" rel="noopener">LinkedIn</a>
+                <a th:href="'mailto:' + ${profile.email}">Email</a>
+                <a th:href="'tel:' + ${profile.phone}">Call</a>
+            </div>
+        </div>
+
+        <div class="hero-photo reveal">
+            <div class="ring"></div>
+            <img th:src="@{/images/profile.jpg}" alt="Jeya Surya P">
+            <span class="chip c1">Spring Boot</span>
+            <span class="chip c2">Kafka</span>
+            <span class="chip c3">Redis</span>
+            <span class="chip c4">Microservices</span>
+        </div>
+    </div>
+    <a href="#about" class="scroll-hint">scroll ↓</a>
+</section>
+
+<!-- TECH MARQUEE (animated) -->
+<section class="marquee">
+    <div class="track">
+        <div class="item" th:each="s : ${marqueeSkills}">
+            <i th:if="${s.devicon}" th:class="${s.icon}"></i>
+            <span th:unless="${s.devicon}" class="emoji" th:text="${s.icon}"></span>
+            <b th:text="${s.name}"></b>
+        </div>
+        <div class="item" th:each="s : ${marqueeSkills}" aria-hidden="true">
+            <i th:if="${s.devicon}" th:class="${s.icon}"></i>
+            <span th:unless="${s.devicon}" class="emoji" th:text="${s.icon}"></span>
+            <b th:text="${s.name}"></b>
+        </div>
+    </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="section">
+    <h3 class="title reveal"><span>01.</span> About Me</h3>
+    <div class="about-grid">
+        <div class="glass reveal">
+            <p th:text="${profile.about}"></p>
+            <p>I enjoy designing backend systems that are secure, fast and easy to maintain —
+                from JWT-based authentication to event-driven services with Kafka and caching with Redis.</p>
+            <ul class="facts">
+                <li>📍 <span th:text="${profile.location}"></span></li>
+                <li>🎓 B.E. Mechanical Engineering — VCET Madurai (2019–2023)</li>
+                <li>💼 Programmer at Osiz Technologies</li>
+            </ul>
+        </div>
+        <div class="stats reveal">
+            <div class="stat glass tilt"><b data-target="2" data-prefix="~">0</b><span>Years Experience</span></div>
+            <div class="stat glass tilt"><b th:attr="data-target=${#lists.size(projects)}">0</b><span>Featured Projects</span></div>
+            <div class="stat glass tilt"><b th:attr="data-target=${#lists.size(marqueeSkills)}" data-suffix="+">0</b><span>Technologies</span></div>
+        </div>
+    </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" class="section">
+    <h3 class="title reveal"><span>02.</span> Skills</h3>
+    <div class="skill-grid">
+        <div class="glass skill-card reveal" th:each="group : ${skillGroups}">
+            <h4 th:text="${group.key}"></h4>
+            <div class="icons">
+                <div class="skill tilt" th:each="s : ${group.value}">
+                    <i th:if="${s.devicon}" th:class="${s.icon}"></i>
+                    <span th:unless="${s.devicon}" class="emoji" th:text="${s.icon}"></span>
+                    <small th:text="${s.name}"></small>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience" class="section">
+    <h3 class="title reveal"><span>03.</span> Experience</h3>
+    <div class="timeline">
+        <div class="t-item glass reveal">
+            <div class="t-head">
+                <div>
+                    <h4>Programmer (Java Backend)</h4>
+                    <p class="company">Osiz Technologies</p>
+                </div>
+                <span class="date">January 2025 – Present</span>
+            </div>
+            <ul>
+                <li>Designed, developed and maintained scalable RESTful APIs using Java, Spring Boot, Spring MVC and Spring Data JPA.</li>
+                <li>Implemented authentication and authorization with Spring Security, JWT, role-based access control (RBAC) and password encryption.</li>
+                <li>Applied Java 8 Streams, Lambdas, Optional, multithreading and ConcurrentHashMap for thread-safe, reliable processing.</li>
+                <li>Optimized database operations using Hibernate, JPA, MySQL, MongoDB and SQL.</li>
+                <li>Added Redis caching to reduce repetitive database reads and improve API response performance.</li>
+                <li>Built AI-powered application features using Java, Spring Boot, LangChain4j and the Google Gemini API.</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" class="section">
+    <h3 class="title reveal"><span>04.</span> Projects</h3>
+    <div class="project-grid">
+        <article class="glass project tilt reveal" th:each="p : ${projects}">
+            <div class="folder">📁</div>
+            <h4 th:text="${p.title}"></h4>
+            <p class="tech" th:text="${p.tech}"></p>
+            <ul>
+                <li th:each="pt : ${p.points}" th:text="${pt}"></li>
+            </ul>
+        </article>
+    </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="section contact">
+    <h3 class="title reveal"><span>05.</span> Get In Touch</h3>
+    <div class="glass contact-card reveal">
+        <p>I'm open to Java backend opportunities. Let's build something great together.</p>
+        <div class="cta center">
+            <a class="btn primary" th:href="'mailto:' + ${profile.email}" th:text="${profile.email}"></a>
+            <a class="btn ghost" th:href="${profile.linkedin}" target="_blank" rel="noopener">LinkedIn</a>
+            <a class="btn ghost" th:href="'tel:' + ${profile.phone}" th:text="${profile.phone}"></a>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>© <span id="year"></span> <span th:text="${profile.name}"></span> · Built with Java, Spring Boot &amp; Thymeleaf</p>
+</footer>
+
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>
